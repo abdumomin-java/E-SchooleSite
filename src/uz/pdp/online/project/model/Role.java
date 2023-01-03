@@ -1,2 +1,9 @@
-package uz.pdp.online.project.model;public enum Role {
+package uz.pdp.online.project.model;
+
+public enum Role {
+
+    ADMIN,
+    TEACHER,
+    PUPIL
+
 }
