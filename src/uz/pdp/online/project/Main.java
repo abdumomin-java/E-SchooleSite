@@ -1,6 +1,7 @@
 package uz.pdp.online.project;
 
 import uz.pdp.online.project.console.ApplicationCon;
+import uz.pdp.online.project.enums.Role;
 import uz.pdp.online.project.model.*;
 
 public class Main {
@@ -18,6 +19,7 @@ public class Main {
 
         Sinf sinf = new Sinf(Sinf.getCount(), "9-A sinf", school);
         Storage.getStorage().sinfList.add(sinf);
+
 
         Pupil pupil = new Pupil(Pupil.getCount(), "Alisher", "alisher", "alisher", Role.PUPIL, 23, sinf);
         Storage.getStorage().abstractUsers.add(pupil);

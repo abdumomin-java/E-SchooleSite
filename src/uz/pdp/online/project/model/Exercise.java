@@ -14,6 +14,7 @@ public class Exercise {
     private int id;
     private Lesson lesson;
     private String task;
+
     private LocalDateTime deadline;
 
     public Exercise() {

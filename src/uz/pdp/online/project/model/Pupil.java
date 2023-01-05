@@ -1,5 +1,7 @@
 package uz.pdp.online.project.model;
 
+import uz.pdp.online.project.enums.Role;
+
 import java.util.Objects;
 
 public class Pupil extends AbstractUser{

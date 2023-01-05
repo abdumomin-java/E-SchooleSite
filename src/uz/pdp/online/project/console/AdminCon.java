@@ -1,6 +1,7 @@
 package uz.pdp.online.project.console;
 
 import uz.pdp.online.project.Storage;
+import uz.pdp.online.project.enums.Role;
 import uz.pdp.online.project.exceptions.WrongAnswer;
 import uz.pdp.online.project.impl.AdminOpe;
 import uz.pdp.online.project.model.*;
@@ -131,19 +132,7 @@ public class AdminCon implements AdminOpe {
     }
 
     private void editLessonFinishTime(Lesson lesson) {
-        String finishTime;
-        while (true) {
-            System.out.println(" Enter Lesson's finishTime: (dd.MM.yyyy HH:mm:ss)  --> Example:  31.12.2022 23:59:59 ");
-            finishTime = scannerText.nextLine();
-            if (!finishTime.matches("[0-9]{2}.[0-9]{2}.[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}")) {
-                exceptionDateAndTime();
-            } else {
-                break;
-            }
-        }
-        String finalFinishTime = finishTime;
-        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-        LocalDateTime finishTime2 = parse(finalFinishTime, formatter1);
+        LocalDateTime finishTime2 = getTime("new finish");
 
         Duration between = Duration.between(lesson.getStartTime(), finishTime2);
         if (between.getSeconds() <= 3600) {
@@ -156,19 +145,7 @@ public class AdminCon implements AdminOpe {
     }
 
     private void editLessonStartTime(Lesson lesson) {
-        String startDate;
-        while (true) {
-            System.out.println(" Enter Lesson's startTime: (dd.MM.yyyy HH:mm:ss)  --> Example:  31.12.2022 23:59:59");
-            startDate = scannerText.nextLine();
-            if (!startDate.matches("[0-9]{2}.[0-9]{2}.[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}")) {
-                exceptionDateAndTime();
-            } else {
-                break;
-            }
-        }
-        String finalStartTime = startDate;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-        LocalDateTime finishTime1 = parse(finalStartTime, formatter);
+        LocalDateTime finishTime1 = getTime("new start");
 
         Duration between = Duration.between(finishTime1, lesson.getFinishTime());
         if (between.getSeconds() <= 3600) {
@@ -258,53 +235,48 @@ public class AdminCon implements AdminOpe {
                             if (teacher == null) {
                                 System.out.println(" Teacher is not found ");
                             } else {
-                                String startDate;
-                                while (true) {
-                                    System.out.println(" Enter Lesson's startTime: (dd.MM.yyyy HH:mm:ss)  --> Example:  31.12.2022 23:59:59 ");
-                                    startDate = scannerText.nextLine();
-                                    if (!startDate.matches("[0-9]{2}.[0-9]{2}.[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}")) {
-                                        exceptionDateAndTime();
-                                    } else {
-                                        break;
-                                    }
-                                }
-                                String finalStartTime = startDate;
-                                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-                                LocalDateTime finishTime1 = parse(finalStartTime, formatter);
+                               while(true){
+                                   LocalDateTime startTime = getTime("start");
 
-                                String finishTime;
-                                while (true) {
-                                    System.out.println(" Enter Lesson's finishTime: (dd.MM.yyyy HH:mm:ss)  --> Example:  31.12.2022 23:59:59 ");
-                                    finishTime = scannerText.nextLine();
-                                    if (!finishTime.matches("[0-9]{2}.[0-9]{2}.[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}")) {
-                                        exceptionDateAndTime();
-                                    } else {
-                                        break;
-                                    }
-                                }
-                                String finalFinishTime = finishTime;
-                                DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-                                LocalDateTime finishTime2 = parse(finalFinishTime, formatter1);
+                                   LocalDateTime finishTime = getTime("finish");
 
-                                Duration between = Duration.between(finishTime1, finishTime2);
-                                if (between.getSeconds() <= 3600) {
-                                    System.out.println(" Darsning boshlanish va tushash vaqti orasidagi farq minimum 1 soat bolishi shart.\n Qayta kiriting! ");
-                                } else {
-                                    Lesson lesson = new Lesson(Lesson.getCount(), sinf, subject, teacher, finishTime1, finishTime2);
-                                    Lesson lesson2 = Storage.getStorage().lessonList.stream()
-                                            .filter(lesson1 -> lesson1.getSubject().equals(lesson.getSubject()) && lesson1.getSinf().equals(lesson.getSinf()) && lesson1.getUser().equals(lesson.getUser()))
-                                            .findFirst().orElse(null);
-                                    if (lesson2 == null) {
-                                        Storage.getStorage().lessonList.add(lesson);
-                                        System.out.println(" Successfully added this Lesson ");
-                                    } else {
-                                        System.out.println(" siz yaratgan lesson ning subjecti , sinfi va teacheri avval yaratilingan, Qayta kiriting!  ");
-                                    }
-                                }
+                                   Duration between = Duration.between(startTime, finishTime);
+                                   if (between.getSeconds() <= 3600) {
+                                       System.out.println(" Darsning boshlanish va tushash vaqti orasidagi farq minimum 1 soat bolishi shart.\n Qayta kiriting! ");
+                                   } else {
+                                       Lesson lesson = new Lesson(Lesson.getCount(), sinf, subject, teacher, startTime, finishTime);
+                                       Lesson lesson2 = Storage.getStorage().lessonList.stream()
+                                               .filter(lesson1 -> lesson1.getSubject().equals(lesson.getSubject()) && lesson1.getSinf().equals(lesson.getSinf()) && lesson1.getUser().equals(lesson.getUser()))
+                                               .findFirst().orElse(null);
+                                       if (lesson2 == null) {
+                                           Storage.getStorage().lessonList.add(lesson);
+                                           System.out.println(" Successfully added this Lesson ");
+                                       } else {
+                                           System.out.println(" siz yaratgan lesson ning subjecti , sinfi va teacheri avval yaratilingan, Qayta kiriting!  ");
+                                       }
+                                       break;
+                                   }
+                               }
                             }
                         }
                     }
                 }
+            }
+        }
+
+
+    }
+
+    public static LocalDateTime getTime(String cause) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+        String time;
+        while (true) {
+            System.out.printf(" Enter Lesson's %s time: (dd.MM.yyyy HH:mm:ss)  --> Example:  31.12.2022 23:59:59 %n", cause);
+            time = scannerText.nextLine();
+            try {
+                return parse(time, formatter);
+            } catch (RuntimeException e) {
+                System.out.println("Wrong date or time format");
             }
         }
     }
@@ -1106,7 +1078,7 @@ public class AdminCon implements AdminOpe {
 
     public void exceptionDateAndTime() {
         try {
-            throw new WrongAnswer(" Date va Time formati talabga javob bermaydi, Qayta kiriting! ");
+            throw new WrongAnswer("Wrong date and time format");
         } catch (WrongAnswer a) {
             a.printStackTrace();
         }

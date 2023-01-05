@@ -1,4 +1,4 @@
-package uz.pdp.online.project.model;
+package uz.pdp.online.project.enums;
 
 public enum Task_Status {
 

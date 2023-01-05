@@ -16,7 +16,7 @@ public class Storage {
 
 
 
-    static Storage storage;
+    private static Storage storage;
 
     public static Storage getStorage() {
         if (storage == null){

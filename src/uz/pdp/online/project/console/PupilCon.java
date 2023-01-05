@@ -5,7 +5,7 @@ import uz.pdp.online.project.impl.PupilOpe;
 import uz.pdp.online.project.model.ExercisePupil;
 import uz.pdp.online.project.model.Lesson;
 import uz.pdp.online.project.model.Pupil;
-import uz.pdp.online.project.model.Task_Status;
+import uz.pdp.online.project.enums.Task_Status;
 
 import java.util.List;
 import java.util.Objects;

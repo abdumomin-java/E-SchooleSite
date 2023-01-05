@@ -4,7 +4,7 @@ import uz.pdp.online.project.Storage;
 import uz.pdp.online.project.impl.ApplicationOpe;
 import uz.pdp.online.project.model.AbstractUser;
 import uz.pdp.online.project.model.Pupil;
-import uz.pdp.online.project.model.Role;
+import uz.pdp.online.project.enums.Role;
 
 import java.util.Objects;
 import java.util.Scanner;
@@ -15,7 +15,6 @@ public class ApplicationCon implements ApplicationOpe {
 
     @Override
     public void startApp() {
-
         System.out.println("\n @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ ");
         System.out.println(" @ @ @ @ @                          Lms.Online.tuit.uz                           @ @ @ @ @ ");
         System.out.println(" @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ ");
@@ -86,7 +85,7 @@ public class ApplicationCon implements ApplicationOpe {
                 .findFirst().orElse(null);
     }
 
-    static ApplicationCon applicationCon;
+    private static ApplicationCon applicationCon;
 
     public static ApplicationCon getApplicationCon() {
         if (applicationCon == null) {

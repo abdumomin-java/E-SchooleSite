@@ -1,5 +1,8 @@
 package uz.pdp.online.project.model;
 
+import uz.pdp.online.project.enums.Grade;
+import uz.pdp.online.project.enums.Task_Status;
+
 import java.util.Objects;
 
 public class ExercisePupil {

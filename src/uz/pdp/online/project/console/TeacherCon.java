@@ -1,6 +1,9 @@
 package uz.pdp.online.project.console;
 
 import uz.pdp.online.project.Storage;
+import uz.pdp.online.project.enums.Grade;
+import uz.pdp.online.project.enums.Role;
+import uz.pdp.online.project.enums.Task_Status;
 import uz.pdp.online.project.impl.TeacherOpe;
 import uz.pdp.online.project.model.*;
 

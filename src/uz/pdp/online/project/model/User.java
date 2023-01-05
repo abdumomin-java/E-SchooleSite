@@ -1,5 +1,7 @@
 package uz.pdp.online.project.model;
 
+import uz.pdp.online.project.enums.Role;
+
 public class User extends AbstractUser{
 
     static int count=1;
