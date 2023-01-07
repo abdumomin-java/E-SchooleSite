@@ -258,7 +258,7 @@ public class TeacherCon implements TeacherOpe {
                 .findFirst().orElse(null);
     }
 
-    static TeacherCon teacherCon;
+    private static TeacherCon teacherCon;
 
     public static TeacherCon getTeacherCon() {
         if (teacherCon == null) {

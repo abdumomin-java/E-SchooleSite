@@ -184,7 +184,7 @@ public class PupilCon implements PupilOpe {
                 .findFirst().orElse(null);
     }
 
-    static PupilCon pupilCon;
+    private static PupilCon pupilCon;
 
     public static PupilCon getPupilCon() {
         if (pupilCon == null) {

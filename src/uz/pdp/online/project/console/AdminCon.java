@@ -139,7 +139,6 @@ public class AdminCon implements AdminOpe {
             System.out.println(" Darsning boshlanish va tushash vaqti orasidagi farq minimum 1 soat bolishi shart.\n Qayta kiriting! ");
         } else {
             lesson.setFinishTime(finishTime2);
-            Storage.getStorage().lessonList.set((lesson.getId() - 1), lesson);
             System.out.println("Successfully edit Lesson's finishTime ");
         }
     }
@@ -152,7 +151,6 @@ public class AdminCon implements AdminOpe {
             System.out.println(" Darsning boshlanish va tushash vaqti orasidagi farq minimum 1 soat bolishi shart.\n Qayta kiriting! ");
         } else {
             lesson.setStartTime(finishTime1);
-            Storage.getStorage().lessonList.set((lesson.getId() - 1), lesson);
             System.out.println(" Successfully edit Lesson's startTime ");
         }
     }
@@ -165,7 +163,6 @@ public class AdminCon implements AdminOpe {
             System.out.println(" Teacher is not found ");
         } else {
             lesson.setUser(teacher);
-            Storage.getStorage().lessonList.set((lesson.getId() - 1), lesson);
             System.out.println(" Successfully edit Lesson's teacher ");
         }
     }
@@ -176,7 +173,6 @@ public class AdminCon implements AdminOpe {
             System.out.println(" sub =ject is not found ");
         } else {
             lesson.setSubject(subject);
-            Storage.getStorage().lessonList.set((lesson.getId() - 1), lesson);
             System.out.println(" Successfully edit Lesson's subject ");
         }
     }
@@ -187,7 +183,6 @@ public class AdminCon implements AdminOpe {
             System.out.println(" Class is not found ");
         } else {
             lesson.setSinf(sinf);
-            Storage.getStorage().lessonList.set((lesson.getId() - 1), lesson);
             System.out.println(" Successfully edit Lesson's Class ");
         }
     }
@@ -235,28 +230,28 @@ public class AdminCon implements AdminOpe {
                             if (teacher == null) {
                                 System.out.println(" Teacher is not found ");
                             } else {
-                               while(true){
-                                   LocalDateTime startTime = getTime("start");
+                                while (true) {
+                                    LocalDateTime startTime = getTime("start");
 
-                                   LocalDateTime finishTime = getTime("finish");
+                                    LocalDateTime finishTime = getTime("finish");
 
-                                   Duration between = Duration.between(startTime, finishTime);
-                                   if (between.getSeconds() <= 3600) {
-                                       System.out.println(" Darsning boshlanish va tushash vaqti orasidagi farq minimum 1 soat bolishi shart.\n Qayta kiriting! ");
-                                   } else {
-                                       Lesson lesson = new Lesson(Lesson.getCount(), sinf, subject, teacher, startTime, finishTime);
-                                       Lesson lesson2 = Storage.getStorage().lessonList.stream()
-                                               .filter(lesson1 -> lesson1.getSubject().equals(lesson.getSubject()) && lesson1.getSinf().equals(lesson.getSinf()) && lesson1.getUser().equals(lesson.getUser()))
-                                               .findFirst().orElse(null);
-                                       if (lesson2 == null) {
-                                           Storage.getStorage().lessonList.add(lesson);
-                                           System.out.println(" Successfully added this Lesson ");
-                                       } else {
-                                           System.out.println(" siz yaratgan lesson ning subjecti , sinfi va teacheri avval yaratilingan, Qayta kiriting!  ");
-                                       }
-                                       break;
-                                   }
-                               }
+                                    Duration between = Duration.between(startTime, finishTime);
+                                    if (between.getSeconds() <= 3600) {
+                                        System.out.println(" Darsning boshlanish va tushash vaqti orasidagi farq minimum 1 soat bolishi shart.\n Qayta kiriting! ");
+                                    } else {
+                                        Lesson lesson = new Lesson(Lesson.getCount(), sinf, subject, teacher, startTime, finishTime);
+                                        Lesson lesson2 = Storage.getStorage().lessonList.stream()
+                                                .filter(lesson1 -> lesson1.getSubject().equals(lesson.getSubject()) && lesson1.getSinf().equals(lesson.getSinf()) && lesson1.getUser().equals(lesson.getUser()))
+                                                .findFirst().orElse(null);
+                                        if (lesson2 == null) {
+                                            Storage.getStorage().lessonList.add(lesson);
+                                            System.out.println(" Successfully added this Lesson ");
+                                        } else {
+                                            System.out.println(" siz yaratgan lesson ning subjecti , sinfi va teacheri avval yaratilingan, Qayta kiriting!  ");
+                                        }
+                                        break;
+                                    }
+                                }
                             }
                         }
                     }
@@ -371,7 +366,6 @@ public class AdminCon implements AdminOpe {
             System.out.println(" School is not found ");
         } else {
             sinf.setSchool(school);
-            Storage.getStorage().sinfList.set((sinf.getId() - 1), sinf);
             System.out.println(" Successfully edit Class's School; ");
         }
     }
@@ -386,13 +380,11 @@ public class AdminCon implements AdminOpe {
             } else if (isSinfName(name)) {
                 System.out.println(" Name is already exists in the Class List");
             } else {
+                sinf.setName(name);
+                System.out.println(" Successfully edit Class's name; ");
                 break;
             }
         }
-        String finalName = name;
-        sinf.setName(finalName);
-        Storage.getStorage().sinfList.set((sinf.getId() - 1), sinf);
-        System.out.println(" Successfully edit Class's name; ");
     }
 
     private void addSinf() {
@@ -523,7 +515,6 @@ public class AdminCon implements AdminOpe {
             System.out.println(" This class is not found, Try again! ");
         } else {
             pupil.setSinf(sinf);
-            Storage.getStorage().abstractUsers.set((pupil.getId() - 1), pupil);
             System.out.println(" Successfully edit Pupil's class! ");
         }
     }
@@ -536,13 +527,11 @@ public class AdminCon implements AdminOpe {
             if (chosen < 15) {
                 System.out.println(" Age is wrong written, Try again! ");
             } else {
+                pupil.setAge(chosen);
+                System.out.println(" Successfully edit Pupil's age! ");
                 break;
             }
         }
-        int finalAge = chosen;
-        pupil.setAge(finalAge);
-        Storage.getStorage().abstractUsers.set((pupil.getId() - 1), pupil);
-        System.out.println(" Successfully edit Pupil's age! ");
     }
 
     private void editPupilPassword(Pupil pupil) {
@@ -555,13 +544,11 @@ public class AdminCon implements AdminOpe {
             } else if (isPupilConPassword(password)) {
                 System.out.println(" Password is already exists in List");
             } else {
+                pupil.setPassword(password);
+                System.out.println(" Successfully edit Pupil's password ");
                 break;
             }
         }
-        String finalPassword = password;
-        pupil.setPassword(finalPassword);
-        Storage.getStorage().abstractUsers.set((pupil.getId() - 1), pupil);
-        System.out.println(" Successfully edit Pupil's password ");
     }
 
     private void editPupilLogin(Pupil pupil) {
@@ -574,13 +561,11 @@ public class AdminCon implements AdminOpe {
             } else if (isPupilConLogin(login)) {
                 System.out.println(" Login is already exists in List");
             } else {
+                pupil.setLogin(login);
+                System.out.println(" Successfully edit Pupil's login");
                 break;
             }
         }
-        String finalLogin = login;
-        pupil.setLogin(finalLogin);
-        Storage.getStorage().abstractUsers.set((pupil.getId() - 1), pupil);
-        System.out.println(" Successfully edit Pupil's login");
     }
 
     private void editPupilName(Pupil pupil) {
@@ -593,13 +578,11 @@ public class AdminCon implements AdminOpe {
             } else if (isPupilConName(name)) {
                 System.out.println(" Name is already exists in List");
             } else {
+                pupil.setName(name);
+                System.out.println(" Successfully edit Pupil's name ");
                 break;
             }
         }
-        String finalName = name;
-        pupil.setName(finalName);
-        Storage.getStorage().abstractUsers.set((pupil.getId() - 1), pupil);
-        System.out.println(" Successfully edit Pupil's name ");
     }
 
     private Pupil chosenPupilForEdit(List<AbstractUser> pupilList) {
@@ -779,13 +762,11 @@ public class AdminCon implements AdminOpe {
                     if (Objects.isNull(name) || name.isBlank()) {
                         System.out.println(" Name is null or empty ");
                     } else {
+                        subject1.setName(name);
+                        System.out.println(" Successfully edit ");
                         break;
                     }
                 }
-                String finalName = name;
-                subject1.setName(finalName);
-                Storage.getStorage().subjectList.set((subject1.getId() - 1), subject1);
-                System.out.println(" Successfully edit ");
             }
         }
     }
@@ -899,13 +880,11 @@ public class AdminCon implements AdminOpe {
             } else if (isTeacherConPassword(password)) {
                 System.out.println(" Password is already exists ");
             } else {
+                user.setPassword(password);
+                System.out.println("Successfully edit Teacher's password ");
                 break;
             }
         }
-        String finalPassword = password;
-        user.setPassword(finalPassword);
-        Storage.getStorage().abstractUsers.set((user.getId() - 1), user);
-        System.out.println("Successfully edit Teacher's password ");
     }
 
     private void editTeacherLogin(User user) {
@@ -918,13 +897,11 @@ public class AdminCon implements AdminOpe {
             } else if (isTeacherConLogin(login)) {
                 System.out.println(" Login is already exists ");
             } else {
+                user.setLogin(login);
+                System.out.println(" Successfully edit Teacher's login! ");
                 break;
             }
         }
-        String finalLogin = login;
-        user.setLogin(finalLogin);
-        Storage.getStorage().abstractUsers.set((user.getId() - 1), user);
-        System.out.println(" Successfully edit Teacher's login! ");
     }
 
     private void editTeacherName(User user) {
@@ -937,13 +914,11 @@ public class AdminCon implements AdminOpe {
             } else if (isTeacherName(name)) {
                 System.out.println(" This name is already exists ");
             } else {
+                user.setName(name);
+                System.out.println(" Successfully edit Teacher's name! ");
                 break;
             }
         }
-        String finalName = name;
-        user.setName(finalName);
-        Storage.getStorage().abstractUsers.set((user.getId() - 1), user);
-        System.out.println(" Successfully edit Teacher's name! ");
     }
 
     private User chosenTeacherForAdmin(List<AbstractUser> teacherListForAdmin) {
@@ -1133,7 +1108,6 @@ public class AdminCon implements AdminOpe {
 
     private void editIsActive(School school) {
         school.setActive(true);
-        Storage.getStorage().schoolList.set((school.getId() - 1), school);
         System.out.println(" Successfully edit School's Active ");
     }
 
@@ -1145,13 +1119,11 @@ public class AdminCon implements AdminOpe {
             if (Objects.isNull(address) || address.isBlank()) {
                 System.out.println(" Address is null or empty ");
             } else {
+                school.setAddress(address);
+                System.out.println(" Successfully Edit, Tank you! ");
                 break;
             }
         }
-        String finalLogin = address;
-        school.setAddress(finalLogin);
-        Storage.getStorage().schoolList.set((school.getId() - 1), school);
-        System.out.println(" Successfully Edit, Tank you! ");
     }
 
     private void editSchoolName(School school) {
@@ -1164,13 +1136,11 @@ public class AdminCon implements AdminOpe {
             } else if (isNameSchool(name)) {
                 System.out.println(" Name is already exists ");
             } else {
+                school.setName(name);
+                System.out.println(" Successfully Edit, Thank you! ");
                 break;
             }
         }
-        String finalLogin = name;
-        school.setName(finalLogin);
-        Storage.getStorage().schoolList.set((school.getId() - 1), school);
-        System.out.println(" Successfully Edit, Thank you! ");
     }
 
     private School chosenSchool() {
@@ -1232,7 +1202,7 @@ public class AdminCon implements AdminOpe {
         return school1 != null;
     }
 
-    static AdminCon adminCon;
+    private static AdminCon adminCon;
 
     public static AdminCon getAdminCon() {
         if (adminCon == null) {
